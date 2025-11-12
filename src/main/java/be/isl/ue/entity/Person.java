@@ -4,6 +4,7 @@
  */
 package be.isl.ue.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
@@ -15,7 +16,7 @@ public class Person extends Entity<Person> {
 
     private String firstName;
     private String lastName;
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String email;
     private String mobile;
     private String address;
@@ -25,7 +26,10 @@ public class Person extends Entity<Person> {
     private Boolean isJuryMember;
     private Boolean isTeacher;
 
-    public Person(String firstName, String lastName, LocalDateTime dateOfBirth, String email, String mobile, String address, String postalCode, String city, String country, Boolean isJuryMember, Boolean isTeacher) {
+    public Person(String firstName, String lastName, LocalDate dateOfBirth, 
+            String email, String mobile, 
+            String address, String postalCode, String city, String country, 
+            Boolean isJuryMember, Boolean isTeacher) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -39,7 +43,12 @@ public class Person extends Entity<Person> {
         this.isTeacher = isTeacher;
     }
 
-    public Person(Integer id, String firstName, String lastName, LocalDateTime dateOfBirth, String email, String mobile, String address, String postalCode, String city, String country, Boolean isJuryMember, Boolean isTeacher, LocalDateTime insertedAt, LocalDateTime updatedAt) {
+    public Person(Integer id, 
+            String firstName, String lastName, LocalDate dateOfBirth, 
+            String email, String mobile, 
+            String address, String postalCode, String city, String country, 
+            Boolean isJuryMember, Boolean isTeacher, 
+            LocalDateTime insertedAt, LocalDateTime updatedAt) {
         super(id, insertedAt, updatedAt);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,11 +79,11 @@ public class Person extends Entity<Person> {
         this.lastName = lastName;
     }
 
-    public LocalDateTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -155,7 +164,7 @@ public class Person extends Entity<Person> {
                 .comparing(Person::getFirstName, Comparator.nullsLast(String::compareTo))
                 .thenComparing(Person::getLastName, Comparator.nullsLast(String::compareTo))
                 .thenComparing(Person::getCity, Comparator.nullsLast(String::compareTo))
-                .thenComparing(Person::getDateOfBirth, Comparator.nullsLast(LocalDateTime::compareTo))
+                .thenComparing(Person::getDateOfBirth, Comparator.nullsLast(LocalDate::compareTo))
                 .thenComparing(Person::getEmail, Comparator.nullsLast(String::compareTo))
                 .compare(this, o);
     }

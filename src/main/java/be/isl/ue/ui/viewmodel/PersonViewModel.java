@@ -9,9 +9,10 @@ package be.isl.ue.ui.viewmodel;
  * @author jessi
  */
 public class PersonViewModel implements ViewModel {
+
     private String firstName;
     private String lastName;
-    private String postalCode;
+    private String city;
     private String dateOfBirth;
     private String email;
 
@@ -31,12 +32,12 @@ public class PersonViewModel implements ViewModel {
         this.lastName = lastName;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getCity() {
+        return city;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getDateOfBirth() {

@@ -23,6 +23,10 @@ public class Connect2DB {
     private static final String PROPERTIES_FILE = "db.properties";
     private static Connection conn = null;
 
+    public Connection getConn() {
+        return conn;
+    }
+
     public Connect2DB() {
         try {
             if (conn == null || conn.isClosed()) {
