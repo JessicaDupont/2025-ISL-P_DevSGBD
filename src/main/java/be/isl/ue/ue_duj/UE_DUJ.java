@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package be.isl.ue_duj;
+package be.isl.ue.ue_duj;
 
 /**
  *
