@@ -11,7 +11,7 @@ import java.util.Comparator;
  *
  * @author jessi
  */
-public class Section extends Entity<Section> {
+public class Section extends AbstractEntity<Section> {
 
     private String name;
     private String description;

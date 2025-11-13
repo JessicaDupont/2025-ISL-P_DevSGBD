@@ -10,7 +10,7 @@ import be.isl.ue.entity.Person;
  *
  * @author jessi
  */
-public class PersonTable extends Table<Person> {
+public class PersonTable extends AbstractTable<Person> {
     public final String FIRSTNAME = "first_name";
     public final String LASTNAME = "last_name";
     public final String DATE_OF_BIRTH = "date_of_birth";

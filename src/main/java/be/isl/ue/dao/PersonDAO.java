@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author jessi
  */
-public class PersonDAO extends DAO<Person, PersonMapper, PersonViewModel> {
+public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel> {
 
     public PersonDAO() {
         super(new PersonMapper(new PersonTable()));

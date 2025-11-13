@@ -4,9 +4,9 @@
  */
 package be.isl.ue.dao;
 
-import be.isl.ue.dao.mapper.Mapper;
-import be.isl.ue.dao.table.Table;
-import be.isl.ue.entity.Entity;
+import be.isl.ue.dao.mapper.AbstractMapper;
+import be.isl.ue.dao.table.AbstractTable;
+import be.isl.ue.entity.AbstractEntity;
 import be.isl.ue.entity.Person;
 import be.isl.ue.ui.viewmodel.ViewModel;
 import java.sql.PreparedStatement;
@@ -24,14 +24,14 @@ import java.util.logging.Logger;
  *
  * @author jessi
  */
-public abstract class DAO<
-        E extends Entity, M extends Mapper, V extends ViewModel> {
+public abstract class AbstractDAO<
+        E extends AbstractEntity, M extends AbstractMapper, V extends ViewModel> {
 
     protected Connect2DB connect2DB;
     private ArrayList<E> entityList = new ArrayList();
     protected M mapper;
 
-    public DAO(M mapper) {
+    public AbstractDAO(M mapper) {
         connect2DB = new Connect2DB();
         this.mapper = mapper;
     }
@@ -80,7 +80,7 @@ public abstract class DAO<
                 }
                 stmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AbstractDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -96,7 +96,7 @@ public abstract class DAO<
             rs.close();
             stmt.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

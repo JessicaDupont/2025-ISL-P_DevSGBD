@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author jessi
  */
-public class PersonMapper extends Mapper<Person, PersonTable> {
+public class PersonMapper extends AbstractMapper<Person, PersonTable> {
 
     public PersonMapper(PersonTable table) {
         super(table);

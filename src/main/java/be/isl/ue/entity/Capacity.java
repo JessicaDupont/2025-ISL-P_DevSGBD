@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author jessi
  */
-public class Capacity extends Entity<Capacity> {
+public class Capacity extends AbstractEntity<Capacity> {
 
     private String name;
     private String description;

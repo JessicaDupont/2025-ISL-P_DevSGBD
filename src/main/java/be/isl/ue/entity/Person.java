@@ -12,7 +12,7 @@ import java.util.Comparator;
  *
  * @author jessi
  */
-public class Person extends Entity<Person> {
+public class Person extends AbstractEntity<Person> {
 
     private String firstName;
     private String lastName;

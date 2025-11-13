@@ -36,7 +36,7 @@ public class Connect2DB {
                 String sPwd = props.getProperty("db.password");
                 String sDriver = props.getProperty("db.driver");
                 if (sCon == null || sUser == null || sPwd == null || sDriver == null) {
-                    throw new IllegalStateException("Le fichier de propriétés 'db.properties' est incomplet ou manquant.");
+                    throw new IllegalStateException("The properties file 'db.properties' is incomplete or missing.");
                 }
 
                 Driver pilote = (Driver) Class.forName(sDriver).newInstance();
@@ -63,15 +63,15 @@ public class Connect2DB {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
 
             if (input == null) {
-                throw new IllegalStateException("Fichier de propriétés " + PROPERTIES_FILE
-                        + " introuvable dans le Classpath (doit être dans src/main/resources).");
+                throw new IllegalStateException("Properties file " + PROPERTIES_FILE
+                        + " not found in the Classpath (must be in src/main/resources).");
             }
 
             props.load(input);
 
         } catch (IOException ex) {
-            Logger.getLogger(Connect2DB.class.getName()).log(Level.SEVERE, "Erreur de lecture du fichier " + PROPERTIES_FILE, ex);
-            throw new IllegalStateException("Erreur lors de la lecture du fichier de configuration.", ex);
+            Logger.getLogger(Connect2DB.class.getName()).log(Level.SEVERE, "Error reading file " + PROPERTIES_FILE, ex);
+            throw new IllegalStateException("Error reading the configuration file.", ex);
         }
         return props;
     }

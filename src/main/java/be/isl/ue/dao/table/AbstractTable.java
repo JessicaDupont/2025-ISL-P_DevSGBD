@@ -4,20 +4,20 @@
  */
 package be.isl.ue.dao.table;
 
-import be.isl.ue.entity.Entity;
+import be.isl.ue.entity.AbstractEntity;
 
 /**
  *
  * @author jessi
  */
-public abstract class Table<E extends Entity> {
+public abstract class AbstractTable<E extends AbstractEntity> {
 
     public final String TABLE_NAME;
     public final String COLUMN_ID;
     public final String INSERTED_AT = "inserted_ts";
     public final String UPDATED_AT = "updated_ts";
 
-    public Table(String name, String columnId) {
+    public AbstractTable(String name, String columnId) {
         this.TABLE_NAME = name;
         this.COLUMN_ID = columnId;
     }

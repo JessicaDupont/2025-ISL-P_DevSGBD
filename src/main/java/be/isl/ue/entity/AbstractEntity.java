@@ -10,16 +10,16 @@ import java.time.LocalDateTime;
  *
  * @author jessi
  */
-public abstract class Entity<E extends Entity> implements Comparable<E> {
+public abstract class AbstractEntity<E extends AbstractEntity> implements Comparable<E> {
 
     protected Integer id;
     protected LocalDateTime insertedAt;
     protected LocalDateTime updatedAt;
 
-    public Entity() {
+    public AbstractEntity() {
     }
 
-    public Entity(Integer id, LocalDateTime insertedAt, LocalDateTime updatedAt) {
+    public AbstractEntity(Integer id, LocalDateTime insertedAt, LocalDateTime updatedAt) {
         this.id = id;
         this.insertedAt = insertedAt;
         this.updatedAt = updatedAt;

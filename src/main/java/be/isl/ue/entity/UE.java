@@ -11,7 +11,7 @@ import java.util.Comparator;
  *
  * @author jessi
  */
-public class UE extends Entity<UE> {
+public class UE extends AbstractEntity<UE> {
 
     private String code;
     private String name;

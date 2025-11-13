@@ -4,15 +4,15 @@
  */
 package be.isl.ue.dao.mapper;
 
-import be.isl.ue.dao.table.Table;
-import be.isl.ue.entity.Entity;
+import be.isl.ue.dao.table.AbstractTable;
+import be.isl.ue.entity.AbstractEntity;
 import java.sql.ResultSet;
 
 /**
  *
  * @author jessi
  */
-public abstract class Mapper<E extends Entity, T extends Table> {
+public abstract class AbstractMapper<E extends AbstractEntity, T extends AbstractTable> {
     protected T table;
 
     public T getTable() {
@@ -23,7 +23,7 @@ public abstract class Mapper<E extends Entity, T extends Table> {
         this.table = table;
     }
 
-    public Mapper(T table) {
+    public AbstractMapper(T table) {
         this.table = table;
     }
     
