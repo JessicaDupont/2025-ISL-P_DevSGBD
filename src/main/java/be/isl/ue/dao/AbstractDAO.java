@@ -13,6 +13,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -67,7 +71,7 @@ public abstract class AbstractDAO<
         if (e.getId() != null) {
             try {
                 String sql = "DELETE FROM " + mapper.getTable().TABLE_NAME
-                        + " WHERE " + mapper.getTable().COLUMN_ID + " = " + e.getId() + ";";
+                        + " WHERE " + mapper.getTable().COLUMN_ID + " = ? ;";
                 PreparedStatement stmt = connect2DB.getConn().prepareStatement(sql);
                 stmt.setInt(1, e.getId());
                 stmt.executeUpdate();
@@ -100,4 +104,16 @@ public abstract class AbstractDAO<
         }
     }
 
+    protected boolean isNotNullOrEmpty(String s) {
+        return s != null && !s.isEmpty();
+    }
+    protected boolean isNotNullOrEmpty(Integer i) {
+        return i != null && i != 0;
+    }
+    protected boolean isNotNullOrEmpty(LocalDate d) {
+        return d != null && d != LocalDate.of(0, 0, 0);
+    }
+    protected boolean isNotNullOrEmpty(LocalDateTime d) {
+        return d != null && d != LocalDateTime.of(0,0,0,0,0);
+    }
 }
