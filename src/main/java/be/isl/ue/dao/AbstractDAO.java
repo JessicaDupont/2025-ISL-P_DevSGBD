@@ -4,8 +4,8 @@
  */
 package be.isl.ue.dao;
 
-import be.isl.ue.dao.mapper.AbstractMapper;
-import be.isl.ue.dao.table.AbstractTable;
+import be.isl.ue.dao.mapper.*;
+import be.isl.ue.dao.table.*;
 import be.isl.ue.entity.AbstractEntity;
 import be.isl.ue.entity.Person;
 import be.isl.ue.ui.viewmodel.ViewModel;
@@ -34,17 +34,23 @@ public abstract class AbstractDAO<
     protected Connect2DB connect2DB;
     protected ArrayList<E> entityList = new ArrayList();
     protected M mapper;
+    protected PersonTable pT = new PersonTable();
+    protected PersonMapper pM = new PersonMapper(pT);
+    protected SectionTable sT = new SectionTable();
+    protected SectionMapper sM = new SectionMapper(sT, pM);
 
-    public AbstractDAO(M mapper) {
+    public AbstractDAO() {
         connect2DB = new Connect2DB();
-        this.mapper = mapper;
     }
 
     public List<E> load() {
         return this.load(null);
     }
 
-    public abstract List<E> load(V vm);
+    public List<E> load(V vm){
+        select(vm);
+        return getList();
+    }
 
     public List<E> getList() {
         return entityList;
@@ -89,7 +95,7 @@ public abstract class AbstractDAO<
         }
     }
 
-    public void updateIdAfterInsert(Person e, String sequence) {
+    public void updateIdAfterInsert(E e, String sequence) {
         try {
             String sql = "SELECT currval('" + sequence + "') AS id";
             Statement stmt = this.connect2DB.getConn().createStatement();

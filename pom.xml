@@ -33,7 +33,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
-        <exec.mainClass>be.isl.ue_duj.UE_DUJ</exec.mainClass>
+        <exec.mainClass>be.isl.ue.ue_duj.UE_DUJ</exec.mainClass>
     </properties>
     <build>
         <plugins>

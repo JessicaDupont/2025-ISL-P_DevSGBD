@@ -168,4 +168,10 @@ public class Person extends AbstractEntity<Person> {
                 .thenComparing(Person::getEmail, Comparator.nullsLast(String::compareTo))
                 .compare(this, o);
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +super.toString()+ ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth=" + dateOfBirth + ", email=" + email + ", mobile=" + mobile + ", address=" + address + ", postalCode=" + postalCode + ", city=" + city + ", country=" + country + ", isJuryMember=" + isJuryMember + ", isTeacher=" + isTeacher + '}';
+    }
+    
 }

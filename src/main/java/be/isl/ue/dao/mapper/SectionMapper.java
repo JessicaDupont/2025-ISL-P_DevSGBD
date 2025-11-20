@@ -19,6 +19,10 @@ public class SectionMapper extends AbstractMapper<Section, SectionTable> {
 
     private PersonMapper pM;
 
+    public PersonMapper getPersonMapper() {
+        return pM;
+    }
+
     public SectionMapper(SectionTable table, PersonMapper personM) {
         super(table);
         pM = personM;
@@ -27,14 +31,13 @@ public class SectionMapper extends AbstractMapper<Section, SectionTable> {
     @Override
     public Section map(ResultSet rs) {
         try {
-            Person coordinator = pM.map(rs);
             return new Section(
-                    rs.getInt(table.COLUMN_ID),
-                    rs.getString(table.NAME),
-                    rs.getString(table.DESCRIPTION),
-                    coordinator,
-                    rs.getTimestamp(table.INSERTED_AT).toLocalDateTime(),
-                    rs.getTimestamp(table.UPDATED_AT).toLocalDateTime()
+                    rs.getInt(table.getCOLUMN_ID()),
+                    rs.getString(table.getNAME()),
+                    rs.getString(table.getDESCRIPTION()),
+                    pM.map(rs),
+                    rs.getTimestamp(table.getINSERTED_AT()).toLocalDateTime(),
+                    rs.getTimestamp(table.getUPDATED_AT()).toLocalDateTime()
             );
         } catch (SQLException ex) {
             System.getLogger(SectionMapper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);

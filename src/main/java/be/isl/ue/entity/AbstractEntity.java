@@ -68,4 +68,9 @@ public abstract class AbstractEntity<E extends AbstractEntity> implements Compar
         return this.id.compareTo(o.id);
     }
 
+    @Override
+    public String toString() {
+        return "id=" + id + ", insertedAt=" + insertedAt + ", updatedAt=" + updatedAt;
+    }
+
 }

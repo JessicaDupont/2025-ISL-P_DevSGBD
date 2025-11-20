@@ -67,6 +67,7 @@ public class PersonTable extends AbstractTable<Person> {
     public String getIS_TEACHER() {
         return getAliasColumn(IS_TEACHER);
     }
+
     public String getFIRSTNAMEWithAlias() {
         return getAliasColumnWithAlias(FIRSTNAME);
     }

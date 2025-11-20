@@ -26,7 +26,7 @@ public class PersonMapper extends AbstractMapper<Person, PersonTable> {
                     rs.getInt(table.getCOLUMN_ID()),
                     rs.getString(table.getFIRSTNAME()),
                     rs.getString(table.getLASTNAME()),
-                    rs.getDate(table.getDATE_OF_BIRTH()).toLocalDate(),
+                    rs.getDate(table.getDATE_OF_BIRTH()) == null ? null : rs.getDate(table.getDATE_OF_BIRTH()).toLocalDate(),
                     rs.getString(table.getEMAIL()),
                     rs.getString(table.getMOBILE()),
                     rs.getString(table.getADDRESS()),
@@ -35,8 +35,8 @@ public class PersonMapper extends AbstractMapper<Person, PersonTable> {
                     rs.getString(table.getCOUNTRY()),
                     rs.getBoolean(table.getIS_JURY_MEMBER()),
                     rs.getBoolean(table.getIS_TEACHER()),
-                    rs.getTimestamp(table.getINSERTED_AT()).toLocalDateTime(),
-                    rs.getTimestamp(table.getUPDATED_AT()).toLocalDateTime()
+                    rs.getTimestamp(table.getINSERTED_AT()) == null ? null : rs.getTimestamp(table.getINSERTED_AT()).toLocalDateTime(),
+                    rs.getTimestamp(table.getUPDATED_AT()) == null ? null : rs.getTimestamp(table.getUPDATED_AT()).toLocalDateTime()
             );
         } catch (SQLException ex) {
             System.getLogger(PersonMapper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);

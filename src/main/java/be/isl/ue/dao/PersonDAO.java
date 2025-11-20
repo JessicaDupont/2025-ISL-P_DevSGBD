@@ -22,25 +22,19 @@ import java.util.List;
 public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel> {
 
     public PersonDAO() {
-        super(new PersonMapper(new PersonTable()));
-    }
-
-    @Override
-    public List<Person> load(PersonViewModel vm) {
-        select(vm);
-        return super.getList();
+        super();
+        mapper = pM;
     }
 
     @Override
     protected void insert(Person e) {
         try {
-            PersonTable t = mapper.getTable();
-            String sql = "INSERT INTO " + t.TABLE_NAME + "("
-                    + t.FIRSTNAME + ", " + t.LASTNAME + "," + t.DATE_OF_BIRTH + ", "
-                    + t.EMAIL + ", " + t.MOBILE + ", "
-                    + t.ADDRESS + ", " + t.POSTAL_CODE + ", " + t.CITY + ", " + t.COUNTRY + ", "
-                    + t.IS_JURY_MEMBER + ", " + t.IS_TEACHER + ", "
-                    + t.INSERTED_AT + ", " + t.UPDATED_AT
+            String sql = "INSERT INTO " + pT.TABLE_NAME + "("
+                    + pT.FIRSTNAME + ", " + pT.LASTNAME + "," + pT.DATE_OF_BIRTH + ", "
+                    + pT.EMAIL + ", " + pT.MOBILE + ", "
+                    + pT.ADDRESS + ", " + pT.POSTAL_CODE + ", " + pT.CITY + ", " + pT.COUNTRY + ", "
+                    + pT.IS_JURY_MEMBER + ", " + pT.IS_TEACHER + ", "
+                    + pT.INSERTED_AT + ", " + pT.UPDATED_AT
                     + ") VALUES ("
                     + "?, ?, ?, "
                     + "?, ?, "
@@ -62,12 +56,10 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
             pStmt.setString(i++, e.getCountry());
             pStmt.setBoolean(i++, e.getIsJuryMember());
             pStmt.setBoolean(i++, e.getIsTeacher());
-            //pStmt.setTimestamp(i++, Timestamp.valueOf(e.getInsertedAt()));
-            //pStmt.setTimestamp(i++, Timestamp.valueOf(e.getUpdatedAt()));
 
             pStmt.executeUpdate();
             pStmt.close();
-            super.updateIdAfterInsert(e, t.TABLE_NAME + "_" + t.COLUMN_ID + "_seq");
+            super.updateIdAfterInsert(e, pT.TABLE_NAME + "_" + pT.COLUMN_ID + "_seq");
         } catch (SQLException ex) {
             System.getLogger(PersonDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
@@ -76,33 +68,32 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
     @Override
     protected void select(PersonViewModel vm) {
         try {
-            PersonTable t = mapper.getTable();
-            String sql = "SELECT " + t.getCOLUMN_IDWithAlias() + ", "
-                    + t.getFIRSTNAMEWithAlias() + ", " + t.getLASTNAMEWithAlias() + ", " + t.getDATE_OF_BIRTHWithAlias() + ", "
-                    + t.getEMAILWithAlias() + ", " + t.getMOBILEWithAlias() + ", "
-                    + t.getADDRESSWithAlias() + ", " + t.getPOSTAL_CODEWithAlias() + ", " + t.getCITYWithAlias() + ", " + t.getCOUNTRYWithAlias() + ", "
-                    + t.getIS_JURY_MEMBERWithAlias() + ", " + t.getIS_TEACHERWithAlias() + ", "
-                    + t.getINSERTED_ATWithAlias() + ", " + t.getUPDATED_ATWithAlias()
-                    + " FROM " + t.TABLE_NAME + " AS " + t.TABLE_ALIAS;
+            String sql = "SELECT " + pT.getCOLUMN_IDWithAlias() + ", "
+                    + pT.getFIRSTNAMEWithAlias() + ", " + pT.getLASTNAMEWithAlias() + ", " + pT.getDATE_OF_BIRTHWithAlias() + ", "
+                    + pT.getEMAILWithAlias() + ", " + pT.getMOBILEWithAlias() + ", "
+                    + pT.getADDRESSWithAlias() + ", " + pT.getPOSTAL_CODEWithAlias() + ", " + pT.getCITYWithAlias() + ", " + pT.getCOUNTRYWithAlias() + ", "
+                    + pT.getIS_JURY_MEMBERWithAlias() + ", " + pT.getIS_TEACHERWithAlias() + ", "
+                    + pT.getINSERTED_ATWithAlias() + ", " + pT.getUPDATED_ATWithAlias()
+                    + " FROM " + pT.getTABLE_NAMEWithAlias();
             System.out.println("SQL "+sql);
             if (vm != null) {
                 String where = " WHERE 1=1 ";
                 if (isNotNullOrEmpty(vm.getFirstName())) {
-                    where += " AND " + t.getFIRSTNAME() + " like ? ";
+                    where += " AND " + pT.getFIRSTNAME() + " like ? ";
                 }
                 if (isNotNullOrEmpty(vm.getLastName())) {
-                    where += " AND " + t.getLASTNAME() + " like ? ";
+                    where += " AND " + pT.getLASTNAME() + " like ? ";
                 }
                 if (isNotNullOrEmpty(vm.getCity())) {
-                    where += " AND " + t.getCITY() + " like ? ";
+                    where += " AND " + pT.getCITY() + " like ? ";
                 }
                 if (isNotNullOrEmpty(vm.getDateOfBirth())) {
-                    where += " AND " + t.getDATE_OF_BIRTH() + " = ? ";
+                    where += " AND " + pT.getDATE_OF_BIRTH() + " = ? ";
                 }
                 if (isNotNullOrEmpty(vm.getEmail())) {
-                    where += " AND " + t.getEMAIL() + " like ? ";
+                    where += " AND " + pT.getEMAIL() + " like ? ";
                 }
-                sql += where + "ORDER BY " + t.getLASTNAME() + ", " + t.getFIRSTNAME() + ";";
+                sql += where + "ORDER BY " + pT.getLASTNAME() + ", " + pT.getFIRSTNAME() + ";";
             }
 
             PreparedStatement stmt = super.connect2DB.getConn().prepareStatement(sql);
@@ -127,7 +118,7 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
 
             ResultSet rs = stmt.executeQuery();
             //System.out.println("RS : "+rs);
-            super.getList().clear();
+            super.entityList.clear();
             while (rs.next()) {
                 super.entityList.add(mapper.map(rs));
             }
@@ -141,22 +132,21 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
     @Override
     protected void update(Person e) {
         try {
-            PersonTable t = mapper.getTable();
             e.setUpdatedAt(LocalDateTime.now());
-            String sql = "UPDATE " + t.TABLE_NAME + " SET "
-                    + t.FIRSTNAME + " = ?, "
-                    + t.LASTNAME + " = ?, "
-                    + t.DATE_OF_BIRTH + " = ?, "
-                    + t.EMAIL + " = ?, "
-                    + t.MOBILE + " = ?, "
-                    + t.ADDRESS + " = ?, "
-                    + t.POSTAL_CODE + " = ?, "
-                    + t.CITY + " = ?, "
-                    + t.COUNTRY + " = ?, "
-                    + t.IS_JURY_MEMBER + " = ?, "
-                    + t.IS_TEACHER + " = ?, "
-                    + t.UPDATED_AT + " = ? "
-                    + " WHERE " + t.COLUMN_ID + " = ? ;";
+            String sql = "UPDATE " + pT.TABLE_NAME + " SET "
+                    + pT.FIRSTNAME + " = ?, "
+                    + pT.LASTNAME + " = ?, "
+                    + pT.DATE_OF_BIRTH + " = ?, "
+                    + pT.EMAIL + " = ?, "
+                    + pT.MOBILE + " = ?, "
+                    + pT.ADDRESS + " = ?, "
+                    + pT.POSTAL_CODE + " = ?, "
+                    + pT.CITY + " = ?, "
+                    + pT.COUNTRY + " = ?, "
+                    + pT.IS_JURY_MEMBER + " = ?, "
+                    + pT.IS_TEACHER + " = ?, "
+                    + pT.UPDATED_AT + " = ? "
+                    + " WHERE " + pT.COLUMN_ID + " = ? ;";
 
             PreparedStatement pStmt = super.connect2DB.getConn().prepareStatement(sql);
             int i = 1;

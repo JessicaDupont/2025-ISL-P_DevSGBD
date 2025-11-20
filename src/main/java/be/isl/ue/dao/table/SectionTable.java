@@ -21,15 +21,27 @@ public class SectionTable extends AbstractTable<Section> {
     }
 
     public String getNAME() {
-        return TABLE_ALIAS + "." + NAME;
+        return getAliasColumn(NAME);
     }
 
     public String getDESCRIPTION() {
-        return TABLE_ALIAS + "." + DESCRIPTION;
+        return getAliasColumn(DESCRIPTION);
     }
 
     public String getFK_PERSON() {
-        return TABLE_ALIAS + "." + FK_PERSON;
+        return getAliasColumn(FK_PERSON);
+    }
+
+    public String getNAMEWithAlias() {
+        return getAliasColumnWithAlias(NAME);
+    }
+
+    public String getDESCRIPTIONWithAlias() {
+        return getAliasColumnWithAlias(DESCRIPTION);
+    }
+
+    public String getFK_PERSONWithAlias() {
+        return getAliasColumnWithAlias(FK_PERSON);
     }
 
 }
