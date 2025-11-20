@@ -75,18 +75,21 @@ public class PersonDAOTest {
         System.out.println("1. Testing INSERT...");
         // The Person entity should not have an ID yet
         assertNull("Person ID must be null before insertion.", testPerson.getId());
-        
         dao.insert(testPerson);
         
         // After insertion, the ID should be updated via updateIdAfterInsert
         assertNotNull("Person ID must be set after successful insertion.", testPerson.getId());
         Integer insertedId = testPerson.getId();
+    System.out.println("ID : "+insertedId);
 
         // --- 2. LOAD Test (by ID check) ---
         System.out.println("2. Testing LOAD by ID (implicit via insert check)...");
         // Create a VM to load all entities for verification (can be optimized with a dedicated select by ID)
         List<Person> loadedList = dao.load(new PersonViewModel());
-        
+        System.out.println("***LIST : ");
+        for(Person p : loadedList){
+            System.out.println("PERSON : "+p.toString());
+        }
         Person loadedPerson = loadedList.stream()
                 .filter(p -> p.getId().equals(insertedId))
                 .findFirst()

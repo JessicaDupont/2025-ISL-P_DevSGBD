@@ -32,7 +32,7 @@ public abstract class AbstractDAO<
         E extends AbstractEntity, M extends AbstractMapper, V extends ViewModel> {
 
     protected Connect2DB connect2DB;
-    private ArrayList<E> entityList = new ArrayList();
+    protected ArrayList<E> entityList = new ArrayList();
     protected M mapper;
 
     public AbstractDAO(M mapper) {

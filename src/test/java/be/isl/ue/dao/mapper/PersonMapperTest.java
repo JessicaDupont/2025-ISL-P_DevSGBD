@@ -48,20 +48,20 @@ public class PersonMapperTest {
         LocalDateTime updatedAt = LocalDateTime.of(2025, 11, 13, 14, 0, 0);
 
         // Configuration du comportement du MockResultSet
-        when(mockResultSet.getInt(table.COLUMN_ID)).thenReturn(id);
-        when(mockResultSet.getString(table.FIRSTNAME)).thenReturn(firstName);
-        when(mockResultSet.getString(table.LASTNAME)).thenReturn(lastName);
-        when(mockResultSet.getDate(table.DATE_OF_BIRTH)).thenReturn(Date.valueOf(dateOfBirth));
-        when(mockResultSet.getString(table.EMAIL)).thenReturn(email);
-        when(mockResultSet.getString(table.MOBILE)).thenReturn(mobile);
-        when(mockResultSet.getString(table.ADDRESS)).thenReturn(address);
-        when(mockResultSet.getString(table.POSTAL_CODE)).thenReturn(postalCode);
-        when(mockResultSet.getString(table.CITY)).thenReturn(city);
-        when(mockResultSet.getString(table.COUNTRY)).thenReturn(country);
-        when(mockResultSet.getBoolean(table.IS_JURY_MEMBER)).thenReturn(isJury);
-        when(mockResultSet.getBoolean(table.IS_TEACHER)).thenReturn(isTeacher);
-        when(mockResultSet.getTimestamp(table.INSERTED_AT)).thenReturn(Timestamp.valueOf(insertedAt));
-        when(mockResultSet.getTimestamp(table.UPDATED_AT)).thenReturn(Timestamp.valueOf(updatedAt));
+        when(mockResultSet.getInt(table.getCOLUMN_ID())).thenReturn(id);
+        when(mockResultSet.getString(table.getFIRSTNAME())).thenReturn(firstName);
+        when(mockResultSet.getString(table.getLASTNAME())).thenReturn(lastName);
+        when(mockResultSet.getDate(table.getDATE_OF_BIRTH())).thenReturn(Date.valueOf(dateOfBirth));
+        when(mockResultSet.getString(table.getEMAIL())).thenReturn(email);
+        when(mockResultSet.getString(table.getMOBILE())).thenReturn(mobile);
+        when(mockResultSet.getString(table.getADDRESS())).thenReturn(address);
+        when(mockResultSet.getString(table.getPOSTAL_CODE())).thenReturn(postalCode);
+        when(mockResultSet.getString(table.getCITY())).thenReturn(city);
+        when(mockResultSet.getString(table.getCOUNTRY())).thenReturn(country);
+        when(mockResultSet.getBoolean(table.getIS_JURY_MEMBER())).thenReturn(isJury);
+        when(mockResultSet.getBoolean(table.getIS_TEACHER())).thenReturn(isTeacher);
+        when(mockResultSet.getTimestamp(table.getINSERTED_AT())).thenReturn(Timestamp.valueOf(insertedAt));
+        when(mockResultSet.getTimestamp(table.getUPDATED_AT())).thenReturn(Timestamp.valueOf(updatedAt));
     }
 
     @After

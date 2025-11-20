@@ -8,6 +8,7 @@ import be.isl.ue.dao.table.PersonTable;
 import be.isl.ue.entity.Person;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 /**
  *
@@ -22,20 +23,20 @@ public class PersonMapper extends AbstractMapper<Person, PersonTable> {
     public Person map(ResultSet rs) {
         try {
             return new Person(
-                    rs.getInt(table.COLUMN_ID),
-                    rs.getString(table.FIRSTNAME),
-                    rs.getString(table.LASTNAME),
-                    rs.getDate(table.DATE_OF_BIRTH).toLocalDate(),
-                    rs.getString(table.EMAIL),
-                    rs.getString(table.MOBILE),
-                    rs.getString(table.ADDRESS),
-                    rs.getString(table.POSTAL_CODE),
-                    rs.getString(table.CITY),
-                    rs.getString(table.COUNTRY),
-                    rs.getBoolean(table.IS_JURY_MEMBER),
-                    rs.getBoolean(table.IS_TEACHER),
-                    rs.getTimestamp(table.INSERTED_AT).toLocalDateTime(),
-                    rs.getTimestamp(table.UPDATED_AT).toLocalDateTime()
+                    rs.getInt(table.getCOLUMN_ID()),
+                    rs.getString(table.getFIRSTNAME()),
+                    rs.getString(table.getLASTNAME()),
+                    rs.getDate(table.getDATE_OF_BIRTH()).toLocalDate(),
+                    rs.getString(table.getEMAIL()),
+                    rs.getString(table.getMOBILE()),
+                    rs.getString(table.getADDRESS()),
+                    rs.getString(table.getPOSTAL_CODE()),
+                    rs.getString(table.getCITY()),
+                    rs.getString(table.getCOUNTRY()),
+                    rs.getBoolean(table.getIS_JURY_MEMBER()),
+                    rs.getBoolean(table.getIS_TEACHER()),
+                    rs.getTimestamp(table.getINSERTED_AT()).toLocalDateTime(),
+                    rs.getTimestamp(table.getUPDATED_AT()).toLocalDateTime()
             );
         } catch (SQLException ex) {
             System.getLogger(PersonMapper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);

@@ -19,10 +19,6 @@ public abstract class AbstractMapper<E extends AbstractEntity, T extends Abstrac
         return table;
     }
 
-    public void setTable(T table) {
-        this.table = table;
-    }
-
     public AbstractMapper(T table) {
         this.table = table;
     }
