@@ -18,6 +18,9 @@ public abstract class AbstractEntity<E extends AbstractEntity> implements Compar
 
     public AbstractEntity() {
     }
+    public AbstractEntity(Integer id) {
+        this.id = id;
+    }
 
     public AbstractEntity(Integer id, LocalDateTime insertedAt, LocalDateTime updatedAt) {
         this.id = id;

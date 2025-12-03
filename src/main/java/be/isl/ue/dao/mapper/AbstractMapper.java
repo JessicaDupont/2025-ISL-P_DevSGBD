@@ -7,6 +7,7 @@ package be.isl.ue.dao.mapper;
 import be.isl.ue.dao.table.AbstractTable;
 import be.isl.ue.entity.AbstractEntity;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -26,4 +27,12 @@ public abstract class AbstractMapper<E extends AbstractEntity, T extends Abstrac
     }
     
     public abstract E map(ResultSet rs);
+    public boolean isMapped(ResultSet rs) {
+        try {
+            rs.findColumn(table.getAlias_Column(table.COLUMN_ID));
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
 }

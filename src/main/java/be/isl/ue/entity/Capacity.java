@@ -86,4 +86,9 @@ int idComparison = super.compareTo(o);
         return this.name.compareTo(o.name);
     }
 
+    @Override
+    public String toString() {
+        return "Capacity{" +super.toString()+ ", name=" + name + ", description=" + description + ", isThresholdOfSuccess=" + isThresholdOfSuccess + '}';
+    }
+
 }

@@ -5,11 +5,9 @@
 package be.isl.ue.dao.mapper;
 
 import be.isl.ue.dao.table.UETable;
-import be.isl.ue.entity.Section;
 import be.isl.ue.entity.UE;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 /**
  *
@@ -18,10 +16,12 @@ import java.time.LocalDateTime;
 public class UEMapper extends AbstractMapper<UE, UETable> {
 
     private SectionMapper sM;
+    private CapacityMapper cM;
 
-    public UEMapper(UETable table, SectionMapper sM) {
+    public UEMapper(UETable table, SectionMapper sM, CapacityMapper cM) {
         super(table);
         this.sM = sM;
+        this.cM = cM;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class UEMapper extends AbstractMapper<UE, UETable> {
                     rs.getInt(table.getAlias_Column(table.NUMBER_OF_PERIODS)),
                     rs.getBoolean(table.getAlias_Column(table.IS_DECISIVE)),
                     sM.map(rs),
-                    rs.getTimestamp(table.getAlias_Column(table.INSERTED_AT)) == null 
-                            ? null 
-                            : rs.getTimestamp(table.getAlias_Column(table.INSERTED_AT)).toLocalDateTime(),
-                    rs.getTimestamp(table.getAlias_Column(table.UPDATED_AT)) == null 
-                            ? null 
-                            : rs.getTimestamp(table.getAlias_Column(table.UPDATED_AT)).toLocalDateTime()
+                    rs.getTimestamp(table.getAlias_Column(table.INSERTED_AT)) == null
+                    ? null
+                    : rs.getTimestamp(table.getAlias_Column(table.INSERTED_AT)).toLocalDateTime(),
+                    rs.getTimestamp(table.getAlias_Column(table.UPDATED_AT)) == null
+                    ? null
+                    : rs.getTimestamp(table.getAlias_Column(table.UPDATED_AT)).toLocalDateTime()
             );
         } catch (SQLException ex) {
             System.getLogger(UEMapper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);

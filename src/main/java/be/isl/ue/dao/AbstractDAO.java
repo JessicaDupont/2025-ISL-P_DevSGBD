@@ -38,8 +38,10 @@ public abstract class AbstractDAO<
     protected PersonMapper pM = new PersonMapper(pT);
     protected SectionTable sT = new SectionTable();
     protected SectionMapper sM = new SectionMapper(sT, pM);
+    protected CapacityTable cT = new CapacityTable();
+    protected CapacityMapper cM = new CapacityMapper(cT);
     protected UETable ueT = new UETable();
-    protected UEMapper ueM = new UEMapper(ueT, sM);
+    protected UEMapper ueM = new UEMapper(ueT, sM, cM);
 
     public AbstractDAO() {
         connect2DB = new Connect2DB();

@@ -1,3 +1,4 @@
 /src/main/ressources/bd.properties
 /nbproject/
 /target/
+src/main/resources/db.properties

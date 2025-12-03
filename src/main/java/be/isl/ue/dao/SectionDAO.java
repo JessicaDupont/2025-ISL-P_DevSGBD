@@ -98,7 +98,7 @@ public class SectionDAO extends AbstractDAO<Section, SectionMapper, SectionViewM
                     + sT.NAME + " = ?, "
                     + sT.DESCRIPTION + " = ?, "
                     + sT.FK_PERSON + " = ?, "
-                    + pT.UPDATED_AT + " = ? "
+                    + sT.UPDATED_AT + " = ? "
                     + " WHERE " + sT.COLUMN_ID + " = ? ;";
 
             PreparedStatement pStmt = super.connect2DB.getConn().prepareStatement(sql);

@@ -57,23 +57,25 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
         try {
             String sql = "SELECT " + ueT.getAllAliasAsColumns() + ", "
                     + sT.getAllAliasAsColumns() + ", "
-                    + pT.getAllAliasAsColumns()
+                    + pT.getAllAliasAsColumns() + ", "
+                    + cT.getAllAliasAsColumns()
                     + " FROM " + ueT.getTABLE_NAMEWithAlias()
                     + " LEFT JOIN " + sT.getTABLE_NAMEWithAlias()
                     + " ON " + sT.getAliasDotColumn(sT.COLUMN_ID) + " = " + ueT.getAliasDotColumn(ueT.FK_SECTION)
-                     + " LEFT JOIN " + pT.getTABLE_NAMEWithAlias()
-                    + " ON " + pT.getAliasDotColumn(pT.COLUMN_ID) + " = " + sT.getAliasDotColumn(sT.FK_PERSON);
-                    //capacity
-                    
+                    + " LEFT JOIN " + pT.getTABLE_NAMEWithAlias()
+                    + " ON " + pT.getAliasDotColumn(pT.COLUMN_ID) + " = " + sT.getAliasDotColumn(sT.FK_PERSON)
+                    + " LEFT JOIN " + cT.getTABLE_NAMEWithAlias()
+                    + " ON " + cT.getAliasDotColumn(cT.FK_UE) + " = " + ueT.getAliasDotColumn(ueT.COLUMN_ID);
+
             if (vm != null) {
                 String where = " WHERE 1=1 ";
                 where += addWhereInSQL(vm.getSection(), ueT.getAliasDotColumn(ueT.FK_SECTION));
                 where += addWhereInSQL(vm.getName(), ueT.getAliasDotColumn(ueT.NAME));
                 where += addWhereInSQL(vm.getDescription(), ueT.getAliasDotColumn(ueT.DESCRIPTION));
                 //where += addWhereInSQL(vm.getCapacity(),
-                sql += where + " ORDER BY " + ueT.getAliasDotColumn(ueT.NAME);
+                sql += where + " ORDER BY " + ueT.getAliasDotColumn(ueT.COLUMN_ID);
             }
-            System.out.println("SQL : "+sql);
+            System.out.println("SQL : " + sql);
             PreparedStatement stmt = super.connect2DB.getConn().prepareStatement(sql);
             if (vm != null) {
                 int i = 1;
@@ -87,13 +89,30 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
                     stmt.setString(i++, "%" + vm.getDescription() + "%");
                 }
             }
-            
+
             ResultSet rs = stmt.executeQuery();
             super.entityList.clear();
+            UE currentUE = null;
+            int lastUEId = -1;
             while (rs.next()) {
-                super.entityList.add(mapper.map(rs));
+                int currentUEId = rs.getInt(ueT.getAlias_Column(ueT.COLUMN_ID));
+
+                if (currentUEId != lastUEId) {
+                    currentUE = mapper.map(rs);
+
+                    if (currentUE != null) {
+                        super.entityList.add(currentUE);
+                    }
+
+                    lastUEId = currentUEId;
+                }
+                rs.getInt(cT.getAlias_Column(cT.COLUMN_ID));
+                
+                if (!rs.wasNull() && currentUE != null) {
+                    cM.map(rs, currentUE);
+                }
             }
-            
+
             stmt.close();
         } catch (SQLException ex) {
             System.getLogger(UeDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);

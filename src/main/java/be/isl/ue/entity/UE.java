@@ -5,6 +5,7 @@
 package be.isl.ue.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -19,6 +20,7 @@ public class UE extends AbstractEntity<UE> {
     private Integer numberOfPeriods;
     private Boolean isDecisive;
     private Section section;
+    private ArrayList<Capacity> capacities;
 
     public UE(String code, String name, String description, Integer numberOdPeriods, Boolean isDecisive, Section section) {
         this.code = code;
@@ -27,6 +29,7 @@ public class UE extends AbstractEntity<UE> {
         this.numberOfPeriods = numberOdPeriods;
         this.isDecisive = isDecisive;
         this.section = section;
+        this.capacities = new ArrayList<Capacity>();
     }
 
     public UE(Integer id, String code, String name, String description, Integer numberOdPeriods, Boolean isDecisive, Section section, LocalDateTime insertedAt, LocalDateTime updatedAt) {
@@ -37,6 +40,11 @@ public class UE extends AbstractEntity<UE> {
         this.numberOfPeriods = numberOdPeriods;
         this.isDecisive = isDecisive;
         this.section = section;
+        this.capacities = new ArrayList<Capacity>();
+    }
+
+    public UE(int id) {
+        super(id);
     }
 
     public String getCode() {
@@ -87,6 +95,14 @@ public class UE extends AbstractEntity<UE> {
         this.section = section;
     }
 
+    public ArrayList<Capacity> getCapacities() {
+        return capacities;
+    }
+
+    public void setCapacities(ArrayList<Capacity> capacities) {
+        this.capacities = capacities;
+    }
+
     @Override
     public int compareTo(UE o) {
         if (o == null) {
@@ -106,7 +122,20 @@ public class UE extends AbstractEntity<UE> {
 
     @Override
     public String toString() {
-        return "UE{" +super.toString() + " code=" + code + ", name=" + name + ", description=" + description + ", numberOfPeriods=" + numberOfPeriods + ", isDecisive=" + isDecisive + ", section=" + section.toString() + '}';
+        String caps = "[";
+        for(Capacity c : capacities){
+            caps += c.toString()+", ";
+        }
+        caps+="]";
+        return "UE{" +super.toString() 
+                + " code=" + code 
+                + ", name=" + name 
+                + ", description=" + description 
+                + ", numberOfPeriods=" + numberOfPeriods 
+                + ", isDecisive=" + isDecisive 
+                + ", section=" + section.toString() 
+                + ", capacities="+caps
+                + '}';
     }
 
 }

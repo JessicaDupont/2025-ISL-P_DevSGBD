@@ -4,11 +4,13 @@
  */
 package be.isl.ue.dao.table;
 
+import be.isl.ue.entity.UE;
+
 /**
  *
  * @author jessi
  */
-public class UETable extends AbstractTable {
+public class UETable extends AbstractTable<UE> {
 
     public final String CODE = "code";
     public final String NAME = "name";
