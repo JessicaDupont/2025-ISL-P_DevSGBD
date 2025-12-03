@@ -115,7 +115,7 @@ public class UETest {
         assertEquals("SGBD", ueA.getCode());
         assertEquals("Dev SGBD", ueA.getName());
         assertEquals(1, (int) ueA.getId());
-        assertEquals(100, (int) ueA.getNumberOdPeriods());
+        assertEquals(100, (int) ueA.getNumberOfPeriods());
         assertTrue(ueA.getIsDecisive());
         assertSame(sectionIT, ueA.getSection());
         assertNotNull(ueA.getInsertedAt());

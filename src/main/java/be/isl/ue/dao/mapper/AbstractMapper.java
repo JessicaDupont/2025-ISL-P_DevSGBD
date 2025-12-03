@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 /**
  *
  * @author jessi
+ * @param <E>
+ * @param <T>
  */
 public abstract class AbstractMapper<E extends AbstractEntity, T extends AbstractTable> {
     protected T table;

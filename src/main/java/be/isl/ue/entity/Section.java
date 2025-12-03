@@ -86,4 +86,10 @@ int idComparison = super.compareTo(o);
                 .compare(this.coordinator.getLastName(), o.coordinator.getLastName());
     }
 
+    @Override
+    public String toString() {
+        return "Section{" +super.toString() + " name=" + name + ", description=" + description + ", coordinator=" + coordinator.toString() + '}';
+    }
+
+    
 }

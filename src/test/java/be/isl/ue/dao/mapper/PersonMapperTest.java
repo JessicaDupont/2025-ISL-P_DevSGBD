@@ -48,20 +48,20 @@ public class PersonMapperTest {
         LocalDateTime updatedAt = LocalDateTime.of(2025, 11, 13, 14, 0, 0);
 
         // Configuration du comportement du MockResultSet
-        when(mockResultSet.getInt(table.getCOLUMN_ID())).thenReturn(id);
-        when(mockResultSet.getString(table.getFIRSTNAME())).thenReturn(firstName);
-        when(mockResultSet.getString(table.getLASTNAME())).thenReturn(lastName);
-        when(mockResultSet.getDate(table.getDATE_OF_BIRTH())).thenReturn(Date.valueOf(dateOfBirth));
-        when(mockResultSet.getString(table.getEMAIL())).thenReturn(email);
-        when(mockResultSet.getString(table.getMOBILE())).thenReturn(mobile);
-        when(mockResultSet.getString(table.getADDRESS())).thenReturn(address);
-        when(mockResultSet.getString(table.getPOSTAL_CODE())).thenReturn(postalCode);
-        when(mockResultSet.getString(table.getCITY())).thenReturn(city);
-        when(mockResultSet.getString(table.getCOUNTRY())).thenReturn(country);
-        when(mockResultSet.getBoolean(table.getIS_JURY_MEMBER())).thenReturn(isJury);
-        when(mockResultSet.getBoolean(table.getIS_TEACHER())).thenReturn(isTeacher);
-        when(mockResultSet.getTimestamp(table.getINSERTED_AT())).thenReturn(Timestamp.valueOf(insertedAt));
-        when(mockResultSet.getTimestamp(table.getUPDATED_AT())).thenReturn(Timestamp.valueOf(updatedAt));
+        when(mockResultSet.getInt(table.getAliasCOLUMN_ID())).thenReturn(id);
+        when(mockResultSet.getString(table.getAliasFIRSTNAME())).thenReturn(firstName);
+        when(mockResultSet.getString(table.getAliasLASTNAME())).thenReturn(lastName);
+        when(mockResultSet.getDate(table.getAliasDATE_OF_BIRTH())).thenReturn(Date.valueOf(dateOfBirth));
+        when(mockResultSet.getString(table.getAliasEMAIL())).thenReturn(email);
+        when(mockResultSet.getString(table.getAliasMOBILE())).thenReturn(mobile);
+        when(mockResultSet.getString(table.getAliasADDRESS())).thenReturn(address);
+        when(mockResultSet.getString(table.getAliasPOSTAL_CODE())).thenReturn(postalCode);
+        when(mockResultSet.getString(table.getAliasCITY())).thenReturn(city);
+        when(mockResultSet.getString(table.getAliasCOUNTRY())).thenReturn(country);
+        when(mockResultSet.getBoolean(table.getAliasIS_JURY_MEMBER())).thenReturn(isJury);
+        when(mockResultSet.getBoolean(table.getAliasIS_TEACHER())).thenReturn(isTeacher);
+        when(mockResultSet.getTimestamp(table.getAliasINSERTED_AT())).thenReturn(Timestamp.valueOf(insertedAt));
+        when(mockResultSet.getTimestamp(table.getAliasUPDATED_AT())).thenReturn(Timestamp.valueOf(updatedAt));
     }
 
     @After

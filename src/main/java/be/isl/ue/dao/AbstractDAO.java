@@ -38,6 +38,8 @@ public abstract class AbstractDAO<
     protected PersonMapper pM = new PersonMapper(pT);
     protected SectionTable sT = new SectionTable();
     protected SectionMapper sM = new SectionMapper(sT, pM);
+    protected UETable ueT = new UETable();
+    protected UEMapper ueM = new UEMapper(ueT, sM);
 
     public AbstractDAO() {
         connect2DB = new Connect2DB();
@@ -47,7 +49,7 @@ public abstract class AbstractDAO<
         return this.load(null);
     }
 
-    public List<E> load(V vm){
+    public List<E> load(V vm) {
         select(vm);
         return getList();
     }
@@ -113,13 +115,24 @@ public abstract class AbstractDAO<
     protected boolean isNotNullOrEmpty(String s) {
         return s != null && !s.isEmpty();
     }
+
     protected boolean isNotNullOrEmpty(Integer i) {
         return i != null && i != 0;
     }
+
     protected boolean isNotNullOrEmpty(LocalDate d) {
         return d != null && d != LocalDate.of(0, 0, 0);
     }
+
     protected boolean isNotNullOrEmpty(LocalDateTime d) {
-        return d != null && d != LocalDateTime.of(0,0,0,0,0);
+        return d != null && d != LocalDateTime.of(0, 0, 0, 0, 0);
+    }
+
+    protected String addWhereInSQL(String vmGet, String columnName) {
+        String result = "";
+        if (isNotNullOrEmpty(vmGet)) {
+            result = " AND " + columnName + " LIKE ? ";
+        }
+        return result;
     }
 }

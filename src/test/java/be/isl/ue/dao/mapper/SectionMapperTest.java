@@ -32,22 +32,22 @@ public class SectionMapperTest {
     private static final LocalDateTime UPDATED_AT = LocalDateTime.of(2025, 11, 20, 16, 0, 0);
 
     // Alias des colonnes (doivent correspondre aux retours de SectionTable.get...)
-    private static final String ALIAS_ID = "s.section_id";
-    private static final String ALIAS_NAME = "s.name";
-    private static final String ALIAS_DESCRIPTION = "s.description";
-    private static final String ALIAS_INSERTED_AT = "s.inserted_ts";
-    private static final String ALIAS_UPDATED_AT = "s.updated_ts";
+    private static final String ALIAS_ID = "s_section_id";
+    private static final String ALIAS_NAME = "s_name";
+    private static final String ALIAS_DESCRIPTION = "s_description";
+    private static final String ALIAS_INSERTED_AT = "s_inserted_ts";
+    private static final String ALIAS_UPDATED_AT = "s_updated_ts";
 
 
     @Before
     public void setUp() throws SQLException {
         // 1. Mock de SectionTable et de ses méthodes d'alias
         table = mock(SectionTable.class);
-        when(table.getCOLUMN_ID()).thenReturn(ALIAS_ID);
-        when(table.getNAME()).thenReturn(ALIAS_NAME);
-        when(table.getDESCRIPTION()).thenReturn(ALIAS_DESCRIPTION);
-        when(table.getINSERTED_AT()).thenReturn(ALIAS_INSERTED_AT);
-        when(table.getUPDATED_AT()).thenReturn(ALIAS_UPDATED_AT);
+        when(table.getAliasCOLUMN_ID()).thenReturn(ALIAS_ID);
+        when(table.getAliasNAME()).thenReturn(ALIAS_NAME);
+        when(table.getAliasDESCRIPTION()).thenReturn(ALIAS_DESCRIPTION);
+        when(table.getAliasINSERTED_AT()).thenReturn(ALIAS_INSERTED_AT);
+        when(table.getAliasUPDATED_AT()).thenReturn(ALIAS_UPDATED_AT);
 
         // 2. Création de l'objet Personne (Coordinator) simulé
         mockCoordinator = new Person(42, "Mock", "DUPONT", null, null, null, null, null, null, null, false, false, INSERTED_AT, UPDATED_AT);

@@ -4,38 +4,37 @@
  */
 package be.isl.ue.dao.mapper;
 
-import be.isl.ue.dao.table.PersonTable;
-import be.isl.ue.dao.table.SectionTable;
-import be.isl.ue.entity.Person;
+import be.isl.ue.dao.table.UETable;
 import be.isl.ue.entity.Section;
+import be.isl.ue.entity.UE;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author jessi
  */
-public class SectionMapper extends AbstractMapper<Section, SectionTable> {
+public class UEMapper extends AbstractMapper<UE, UETable> {
 
-    private PersonMapper pM;
+    private SectionMapper sM;
 
-    public PersonMapper getPersonMapper() {
-        return pM;
-    }
-
-    public SectionMapper(SectionTable table, PersonMapper personM) {
+    public UEMapper(UETable table, SectionMapper sM) {
         super(table);
-        pM = personM;
+        this.sM = sM;
     }
 
     @Override
-    public Section map(ResultSet rs) {
+    public UE map(ResultSet rs) {
         try {
-            return new Section(
+            return new UE(
                     rs.getInt(table.getAlias_Column(table.COLUMN_ID)),
+                    rs.getString(table.getAlias_Column(table.CODE)),
                     rs.getString(table.getAlias_Column(table.NAME)),
                     rs.getString(table.getAlias_Column(table.DESCRIPTION)),
-                    pM.map(rs),
+                    rs.getInt(table.getAlias_Column(table.NUMBER_OF_PERIODS)),
+                    rs.getBoolean(table.getAlias_Column(table.IS_DECISIVE)),
+                    sM.map(rs),
                     rs.getTimestamp(table.getAlias_Column(table.INSERTED_AT)) == null 
                             ? null 
                             : rs.getTimestamp(table.getAlias_Column(table.INSERTED_AT)).toLocalDateTime(),
@@ -44,9 +43,10 @@ public class SectionMapper extends AbstractMapper<Section, SectionTable> {
                             : rs.getTimestamp(table.getAlias_Column(table.UPDATED_AT)).toLocalDateTime()
             );
         } catch (SQLException ex) {
-            System.getLogger(SectionMapper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            System.getLogger(UEMapper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
         return null;
     }
+;
 
 }

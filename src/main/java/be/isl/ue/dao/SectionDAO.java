@@ -4,10 +4,7 @@
  */
 package be.isl.ue.dao;
 
-import be.isl.ue.dao.mapper.PersonMapper;
 import be.isl.ue.dao.mapper.SectionMapper;
-import be.isl.ue.dao.table.PersonTable;
-import be.isl.ue.dao.table.SectionTable;
 import be.isl.ue.entity.Section;
 import be.isl.ue.ui.viewmodel.SectionViewModel;
 import java.sql.PreparedStatement;
@@ -15,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  *
@@ -57,28 +53,17 @@ public class SectionDAO extends AbstractDAO<Section, SectionMapper, SectionViewM
     @Override
     protected void select(SectionViewModel vm) {
         try {
-            String sql = "SELECT " + sT.getCOLUMN_IDWithAlias() + ", "
-                    + sT.getNAMEWithAlias() + ", "
-                    + sT.getDESCRIPTIONWithAlias() + ", "
-                    + sT.getINSERTED_ATWithAlias() + ", " + sT.getUPDATED_ATWithAlias() + ", "
-                    + pT.getCOLUMN_IDWithAlias() + ", "
-                    + pT.getFIRSTNAMEWithAlias() + ", " + pT.getLASTNAMEWithAlias() + ", " + pT.getDATE_OF_BIRTHWithAlias() + ", "
-                    + pT.getEMAILWithAlias() + ", " + pT.getMOBILEWithAlias() + ", "
-                    + pT.getADDRESSWithAlias() + ", " + pT.getPOSTAL_CODEWithAlias() + ", " + pT.getCITYWithAlias() + ", " + pT.getCOUNTRYWithAlias() + ", "
-                    + pT.getIS_JURY_MEMBERWithAlias() + ", " + pT.getIS_TEACHERWithAlias() + ", "
-                    + pT.getINSERTED_ATWithAlias() + ", " + pT.getUPDATED_ATWithAlias()
+            String sql = "SELECT " + sT.getAllAliasAsColumns() + ", "
+                    + pT.getAllAliasAsColumns()
                     + " FROM " + sT.getTABLE_NAMEWithAlias()
-                    + " LEFT JOIN " + pT.getTABLE_NAMEWithAlias() + " ON " + pT.getCOLUMN_ID() + " = " + sT.getFK_PERSON();
-            System.out.println("SQL = " + sql);
+                    + " LEFT JOIN " + pT.getTABLE_NAMEWithAlias()
+                    + " ON " + pT.getAliasDotColumn(pT.COLUMN_ID) + " = " + sT.getAliasDotColumn(sT.FK_PERSON);
+
             if (vm != null) {
                 String where = " WHERE 1=1 ";
-                if (isNotNullOrEmpty(vm.getName())) {
-                    where += " AND " + sT.getNAME() + " like ? ";
-                }
-                if (isNotNullOrEmpty(vm.getCoordinatorLastName())) {
-                    where += " AND " + pT.getLASTNAME() + " like ? ";
-                }
-                sql += where + "ORDER BY " + sT.getNAME() + ";";
+                where += addWhereInSQL(vm.getName(), sT.getAliasDotColumn(sT.NAME));
+                where += addWhereInSQL(vm.getCoordinatorLastName(), pT.getAliasDotColumn(pT.LASTNAME));
+                sql += where + "ORDER BY " + sT.getAliasDotColumn(sT.NAME) + ";";
             }
 
             PreparedStatement stmt = super.connect2DB.getConn().prepareStatement(sql);
@@ -115,7 +100,7 @@ public class SectionDAO extends AbstractDAO<Section, SectionMapper, SectionViewM
                     + sT.FK_PERSON + " = ?, "
                     + pT.UPDATED_AT + " = ? "
                     + " WHERE " + sT.COLUMN_ID + " = ? ;";
-            
+
             PreparedStatement pStmt = super.connect2DB.getConn().prepareStatement(sql);
             int i = 1;
             pStmt.setString(i++, e.getName());
@@ -123,7 +108,7 @@ public class SectionDAO extends AbstractDAO<Section, SectionMapper, SectionViewM
             pStmt.setInt(i++, e.getCoordinator().getId());
             pStmt.setTimestamp(i++, Timestamp.valueOf(e.getUpdatedAt()));
             pStmt.setInt(i++, e.getId());
-            
+
             pStmt.executeUpdate();
             pStmt.close();
         } catch (SQLException ex) {

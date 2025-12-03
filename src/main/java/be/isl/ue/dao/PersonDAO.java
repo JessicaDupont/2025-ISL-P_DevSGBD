@@ -5,7 +5,6 @@
 package be.isl.ue.dao;
 
 import be.isl.ue.dao.mapper.PersonMapper;
-import be.isl.ue.dao.table.PersonTable;
 import be.isl.ue.entity.Person;
 import be.isl.ue.ui.viewmodel.PersonViewModel;
 import java.sql.PreparedStatement;
@@ -13,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  *
@@ -68,32 +66,17 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
     @Override
     protected void select(PersonViewModel vm) {
         try {
-            String sql = "SELECT " + pT.getCOLUMN_IDWithAlias() + ", "
-                    + pT.getFIRSTNAMEWithAlias() + ", " + pT.getLASTNAMEWithAlias() + ", " + pT.getDATE_OF_BIRTHWithAlias() + ", "
-                    + pT.getEMAILWithAlias() + ", " + pT.getMOBILEWithAlias() + ", "
-                    + pT.getADDRESSWithAlias() + ", " + pT.getPOSTAL_CODEWithAlias() + ", " + pT.getCITYWithAlias() + ", " + pT.getCOUNTRYWithAlias() + ", "
-                    + pT.getIS_JURY_MEMBERWithAlias() + ", " + pT.getIS_TEACHERWithAlias() + ", "
-                    + pT.getINSERTED_ATWithAlias() + ", " + pT.getUPDATED_ATWithAlias()
+            String sql = "SELECT " + pT.getAllAliasAsColumns()
                     + " FROM " + pT.getTABLE_NAMEWithAlias();
-            System.out.println("SQL "+sql);
+
             if (vm != null) {
                 String where = " WHERE 1=1 ";
-                if (isNotNullOrEmpty(vm.getFirstName())) {
-                    where += " AND " + pT.getFIRSTNAME() + " like ? ";
-                }
-                if (isNotNullOrEmpty(vm.getLastName())) {
-                    where += " AND " + pT.getLASTNAME() + " like ? ";
-                }
-                if (isNotNullOrEmpty(vm.getCity())) {
-                    where += " AND " + pT.getCITY() + " like ? ";
-                }
-                if (isNotNullOrEmpty(vm.getDateOfBirth())) {
-                    where += " AND " + pT.getDATE_OF_BIRTH() + " = ? ";
-                }
-                if (isNotNullOrEmpty(vm.getEmail())) {
-                    where += " AND " + pT.getEMAIL() + " like ? ";
-                }
-                sql += where + "ORDER BY " + pT.getLASTNAME() + ", " + pT.getFIRSTNAME() + ";";
+                where += addWhereInSQL(vm.getFirstName(), pT.getAliasAsColumn(pT.FIRSTNAME));
+                where += addWhereInSQL(vm.getLastName(), pT.getAliasAsColumn(pT.LASTNAME));
+                where += addWhereInSQL(vm.getCity(), pT.getAliasAsColumn(pT.CITY));
+                where += addWhereInSQL(vm.getDateOfBirth(), pT.getAliasAsColumn(pT.DATE_OF_BIRTH));
+                where += addWhereInSQL(vm.getEmail(), pT.getAliasAsColumn(pT.EMAIL));
+                sql += where + "ORDER BY " + pT.getAliasAsColumn(pT.LASTNAME) + ", " + pT.getAliasAsColumn(pT.FIRSTNAME) + ";";
             }
 
             PreparedStatement stmt = super.connect2DB.getConn().prepareStatement(sql);
@@ -117,7 +100,6 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
             }
 
             ResultSet rs = stmt.executeQuery();
-            //System.out.println("RS : "+rs);
             super.entityList.clear();
             while (rs.next()) {
                 super.entityList.add(mapper.map(rs));

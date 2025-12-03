@@ -16,7 +16,7 @@ public class UE extends AbstractEntity<UE> {
     private String code;
     private String name;
     private String description;
-    private Integer numberOdPeriods;
+    private Integer numberOfPeriods;
     private Boolean isDecisive;
     private Section section;
 
@@ -24,7 +24,7 @@ public class UE extends AbstractEntity<UE> {
         this.code = code;
         this.name = name;
         this.description = description;
-        this.numberOdPeriods = numberOdPeriods;
+        this.numberOfPeriods = numberOdPeriods;
         this.isDecisive = isDecisive;
         this.section = section;
     }
@@ -34,7 +34,7 @@ public class UE extends AbstractEntity<UE> {
         this.code = code;
         this.name = name;
         this.description = description;
-        this.numberOdPeriods = numberOdPeriods;
+        this.numberOfPeriods = numberOdPeriods;
         this.isDecisive = isDecisive;
         this.section = section;
     }
@@ -63,12 +63,12 @@ public class UE extends AbstractEntity<UE> {
         this.description = description;
     }
 
-    public Integer getNumberOdPeriods() {
-        return numberOdPeriods;
+    public Integer getNumberOfPeriods() {
+        return numberOfPeriods;
     }
 
-    public void setNumberOdPeriods(Integer numberOdPeriods) {
-        this.numberOdPeriods = numberOdPeriods;
+    public void setNumberOfPeriods(Integer numberOfPeriods) {
+        this.numberOfPeriods = numberOfPeriods;
     }
 
     public Boolean getIsDecisive() {
@@ -102,6 +102,11 @@ public class UE extends AbstractEntity<UE> {
                 .thenComparing(UE::getDescription, Comparator.nullsLast(String::compareTo))
                 .thenComparing(UE::getSection, Comparator.nullsLast(Comparator.naturalOrder()))
                 .compare(this, o);
+    }
+
+    @Override
+    public String toString() {
+        return "UE{" +super.toString() + " code=" + code + ", name=" + name + ", description=" + description + ", numberOfPeriods=" + numberOfPeriods + ", isDecisive=" + isDecisive + ", section=" + section.toString() + '}';
     }
 
 }

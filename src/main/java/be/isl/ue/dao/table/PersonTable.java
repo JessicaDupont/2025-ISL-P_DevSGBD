@@ -24,95 +24,23 @@ public class PersonTable extends AbstractTable<Person> {
     public final String IS_JURY_MEMBER = "is_jury_member";
     public final String IS_TEACHER = "is_teacher";
 
-    public String getFIRSTNAME() {
-        return getAliasColumn(FIRSTNAME);
-    }
-
-    public String getLASTNAME() {
-        return getAliasColumn(LASTNAME);
-    }
-
-    public String getDATE_OF_BIRTH() {
-        return getAliasColumn(DATE_OF_BIRTH);
-    }
-
-    public String getEMAIL() {
-        return getAliasColumn(EMAIL);
-    }
-
-    public String getMOBILE() {
-        return getAliasColumn(MOBILE);
-    }
-
-    public String getADDRESS() {
-        return getAliasColumn(ADDRESS);
-    }
-
-    public String getPOSTAL_CODE() {
-        return getAliasColumn(POSTAL_CODE);
-    }
-
-    public String getCITY() {
-        return getAliasColumn(CITY);
-    }
-
-    public String getCOUNTRY() {
-        return getAliasColumn(COUNTRY);
-    }
-
-    public String getIS_JURY_MEMBER() {
-        return getAliasColumn(IS_JURY_MEMBER);
-    }
-
-    public String getIS_TEACHER() {
-        return getAliasColumn(IS_TEACHER);
-    }
-
-    public String getFIRSTNAMEWithAlias() {
-        return getAliasColumnWithAlias(FIRSTNAME);
-    }
-
-    public String getLASTNAMEWithAlias() {
-        return getAliasColumnWithAlias(LASTNAME);
-    }
-
-    public String getDATE_OF_BIRTHWithAlias() {
-        return getAliasColumnWithAlias(DATE_OF_BIRTH);
-    }
-
-    public String getEMAILWithAlias() {
-        return getAliasColumnWithAlias(EMAIL);
-    }
-
-    public String getMOBILEWithAlias() {
-        return getAliasColumnWithAlias(MOBILE);
-    }
-
-    public String getADDRESSWithAlias() {
-        return getAliasColumnWithAlias(ADDRESS);
-    }
-
-    public String getPOSTAL_CODEWithAlias() {
-        return getAliasColumnWithAlias(POSTAL_CODE);
-    }
-
-    public String getCITYWithAlias() {
-        return getAliasColumnWithAlias(CITY);
-    }
-
-    public String getCOUNTRYWithAlias() {
-        return getAliasColumnWithAlias(COUNTRY);
-    }
-
-    public String getIS_JURY_MEMBERWithAlias() {
-        return getAliasColumnWithAlias(IS_JURY_MEMBER);
-    }
-
-    public String getIS_TEACHERWithAlias() {
-        return getAliasColumnWithAlias(IS_TEACHER);
-    }
-
     public PersonTable() {
         super("person", "person_id", "p");
+    }
+
+    @Override
+    public String getAllAliasAsColumns() {
+        return super.getAllAliasAsColumns() + ", "
+                + getAliasAsColumn(this.FIRSTNAME) + ", "
+                + getAliasAsColumn(this.LASTNAME) + ", "
+                + getAliasAsColumn(this.DATE_OF_BIRTH) + ", "
+                + getAliasAsColumn(this.ADDRESS) + ", "
+                + getAliasAsColumn(this.POSTAL_CODE) + ", "
+                + getAliasAsColumn(this.CITY) + ", "
+                + getAliasAsColumn(this.COUNTRY) + ", "
+                + getAliasAsColumn(this.MOBILE) + ", "
+                + getAliasAsColumn(this.EMAIL) + ", "
+                + getAliasAsColumn(this.IS_TEACHER) + ", "
+                + getAliasAsColumn(this.IS_JURY_MEMBER);
     }
 }
