@@ -61,7 +61,7 @@ public class CapacityDAO extends AbstractDAO<Capacity, CapacityMapper, CapacityV
                     + " FROM " + cT.getTABLE_NAMEWithAlias()
                     + " LEFT JOIN " + ueT.getTABLE_NAMEWithAlias()
                     + " ON " + ueT.getAliasDotColumn(ueT.COLUMN_ID) + " = " + cT.getAliasDotColumn(cT.FK_UE);
-            sql += "ORDER BY " + sT.getAliasDotColumn(sT.NAME) + ";";
+            sql += " ORDER BY " + ueT.getAliasDotColumn(ueT.COLUMN_ID);
 
             PreparedStatement stmt = super.connect2DB.getConn().prepareStatement(sql);
 

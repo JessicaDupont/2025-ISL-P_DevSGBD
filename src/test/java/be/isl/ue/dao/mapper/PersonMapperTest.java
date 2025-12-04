@@ -9,93 +9,105 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * Unit test for PersonMapper, checking if ResultSet data is correctly mapped to a Person entity.
+ *
+ * @author jessi
  */
 public class PersonMapperTest {
-
     private PersonMapper instance;
     private PersonTable table;
     private ResultSet mockResultSet;
 
+    // --- Données de Test ---
+    private final Integer TEST_ID = 42;
+    private final String TEST_FIRSTNAME = "JESSICA";
+    private final String TEST_LASTNAME = "DUPONT";
+    private final LocalDate TEST_DATE_OF_BIRTH = LocalDate.of(1990, 3, 12);
+    private final String TEST_EMAIL = "j.dupont@test.be";
+    private final String TEST_MOBILE = "0475123456";
+    private final String TEST_ADDRESS = "Rue de la source 5/1";
+    private final String TEST_POSTAL_CODE = "4570";
+    private final String TEST_CITY = "Marchin";
+    private final String TEST_COUNTRY = "Belgium";
+    private final Boolean TEST_IS_JURY_MEMBER = false;
+    private final Boolean TEST_IS_TEACHER = false;
+    private final LocalDateTime TEST_INSERTED_AT = LocalDateTime.of(2025, 11, 10, 10, 0, 0);
+    private final LocalDateTime TEST_UPDATED_AT = LocalDateTime.of(2025, 11, 13, 14, 0, 0);
+    
+    public PersonMapperTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
     @Before
     public void setUp() throws SQLException {
+    // 1. Initialisation des objets nécessaires (Mapper, Table)
         table = new PersonTable();
         instance = new PersonMapper(table);
-        
-        // Crée un objet Mock (simulation) du ResultSet
+
+        // 2. Création du Mock (simulation) du ResultSet
         mockResultSet = mock(ResultSet.class);
         
-        // Définition des données à simuler
-        Integer id = 42;
-        String firstName = "JESSICA";
-        String lastName = "DUPONT";
-        LocalDate dateOfBirth = LocalDate.of(1990, 3, 12);
-        String email = "j.dupont@test.be";
-        String mobile = "0475123456";
-        String address = "Rue de la Source, 1";
-        String postalCode = "4577";
-        String city = "Marchin";
-        String country = "Belgium";
-        Boolean isJury = true;
-        Boolean isTeacher = false;
-        LocalDateTime insertedAt = LocalDateTime.of(2025, 11, 10, 10, 0, 0);
-        LocalDateTime updatedAt = LocalDateTime.of(2025, 11, 13, 14, 0, 0);
-
-        // Configuration du comportement du MockResultSet
-        when(mockResultSet.getInt(table.getAliasCOLUMN_ID())).thenReturn(id);
-        when(mockResultSet.getString(table.getAliasFIRSTNAME())).thenReturn(firstName);
-        when(mockResultSet.getString(table.getAliasLASTNAME())).thenReturn(lastName);
-        when(mockResultSet.getDate(table.getAliasDATE_OF_BIRTH())).thenReturn(Date.valueOf(dateOfBirth));
-        when(mockResultSet.getString(table.getAliasEMAIL())).thenReturn(email);
-        when(mockResultSet.getString(table.getAliasMOBILE())).thenReturn(mobile);
-        when(mockResultSet.getString(table.getAliasADDRESS())).thenReturn(address);
-        when(mockResultSet.getString(table.getAliasPOSTAL_CODE())).thenReturn(postalCode);
-        when(mockResultSet.getString(table.getAliasCITY())).thenReturn(city);
-        when(mockResultSet.getString(table.getAliasCOUNTRY())).thenReturn(country);
-        when(mockResultSet.getBoolean(table.getAliasIS_JURY_MEMBER())).thenReturn(isJury);
-        when(mockResultSet.getBoolean(table.getAliasIS_TEACHER())).thenReturn(isTeacher);
-        when(mockResultSet.getTimestamp(table.getAliasINSERTED_AT())).thenReturn(Timestamp.valueOf(insertedAt));
-        when(mockResultSet.getTimestamp(table.getAliasUPDATED_AT())).thenReturn(Timestamp.valueOf(updatedAt));
-    }
-
+        // 3. Configuration des retours du Mock pour chaque colonne SQL
+        when(mockResultSet.getInt(table.getAlias_Column(table.COLUMN_ID))).thenReturn(TEST_ID);
+        when(mockResultSet.getString(table.getAlias_Column(table.FIRSTNAME))).thenReturn(TEST_FIRSTNAME);
+        when(mockResultSet.getString(table.getAlias_Column(table.LASTNAME))).thenReturn(TEST_LASTNAME);
+        when(mockResultSet.getDate(table.getAlias_Column(table.DATE_OF_BIRTH))).thenReturn(Date.valueOf(TEST_DATE_OF_BIRTH));
+        when(mockResultSet.getString(table.getAlias_Column(table.EMAIL))).thenReturn(TEST_EMAIL);
+        when(mockResultSet.getString(table.getAlias_Column(table.MOBILE))).thenReturn(TEST_MOBILE);
+        when(mockResultSet.getString(table.getAlias_Column(table.ADDRESS))).thenReturn(TEST_ADDRESS);
+        when(mockResultSet.getString(table.getAlias_Column(table.POSTAL_CODE))).thenReturn(TEST_POSTAL_CODE);
+        when(mockResultSet.getString(table.getAlias_Column(table.CITY))).thenReturn(TEST_CITY);
+        when(mockResultSet.getString(table.getAlias_Column(table.COUNTRY))).thenReturn(TEST_COUNTRY);
+        when(mockResultSet.getBoolean(table.getAlias_Column(table.IS_JURY_MEMBER))).thenReturn(TEST_IS_JURY_MEMBER);
+        when(mockResultSet.getBoolean(table.getAlias_Column(table.IS_TEACHER))).thenReturn(TEST_IS_TEACHER);
+        when(mockResultSet.getTimestamp(table.getAlias_Column(table.INSERTED_AT))).thenReturn(Timestamp.valueOf(TEST_INSERTED_AT));
+        when(mockResultSet.getTimestamp(table.getAlias_Column(table.UPDATED_AT))).thenReturn(Timestamp.valueOf(TEST_UPDATED_AT));}
+    
     @After
     public void tearDown() {
-        instance = null;
-        table = null;
-        mockResultSet = null;
     }
 
     /**
      * Test of map method, of class PersonMapper.
      */
     @Test
-    public void testMap_ValidResultSet_ReturnsCorrectPerson() {
-        System.out.println("Testing PersonMapper: map(ResultSet)");
-        
+    public void testMap(){
+        System.out.println("TEST PersonMapperTest");
         Person result = instance.map(mockResultSet);
         
+        // Assertions : Vérification des résultats
         assertNotNull("The mapped Person object should not be null.", result);
         
-        // Verification des valeurs
-        assertEquals("ID must match.", Integer.valueOf(42), result.getId());
-        assertEquals("First name must match.", "JESSICA", result.getFirstName());
-        assertEquals("Last name must match.", "DUPONT", result.getLastName());
-        assertEquals("Date of Birth must match.", LocalDate.of(1990, 3, 12), result.getDateOfBirth());
-        assertEquals("Email must match.", "j.dupont@test.be", result.getEmail());
-        assertEquals("Mobile must match.", "0475123456", result.getMobile());
-        assertEquals("City must match.", "Marchin", result.getCity());
-        assertTrue("Is Jury Member must be true.", result.getIsJuryMember());
-        assertFalse("Is Teacher must be false.", result.getIsTeacher());
-        assertEquals("InsertedAt must match.", LocalDateTime.of(2025, 11, 10, 10, 0, 0), result.getInsertedAt());
-        assertEquals("UpdatedAt must match.", LocalDateTime.of(2025, 11, 13, 14, 0, 0), result.getUpdatedAt());
-        
-        // Vérifie qu'aucune exception n'est lancée par PersonMapper lors de l'appel
-        // (La gestion d'erreur dans PersonMapper.map est rudimentaire, il faut s'assurer qu'elle ne cache pas un échec silencieux).
+        // 1. Vérification des champs
+        assertEquals("ID must match.", TEST_ID, result.getId());
+        assertEquals("First name must match.", TEST_FIRSTNAME, result.getFirstName());
+        assertEquals("Last name must match.", TEST_LASTNAME, result.getLastName());
+        assertEquals("Date of Birth must match.", TEST_DATE_OF_BIRTH, result.getDateOfBirth());
+        assertEquals("Email must match.", TEST_EMAIL, result.getEmail());
+        assertEquals("Mobile must match.", TEST_MOBILE, result.getMobile());
+        assertEquals("Address must match.", TEST_ADDRESS, result.getAddress());
+        assertEquals("Postal Code must match.", TEST_POSTAL_CODE, result.getPostalCode());
+        assertEquals("City must match.", TEST_CITY, result.getCity());
+        assertEquals("Country must match.", TEST_COUNTRY, result.getCountry());
+        assertEquals("Is Jury Member must match.", TEST_IS_JURY_MEMBER, result.getIsJuryMember());
+        assertEquals("Is Teacher must match.", TEST_IS_TEACHER, result.getIsTeacher());
+        assertEquals("InsertedAt must match.", TEST_INSERTED_AT, result.getInsertedAt());
+        assertEquals("UpdatedAt must match.", TEST_UPDATED_AT, result.getUpdatedAt());
     }
+    
 }

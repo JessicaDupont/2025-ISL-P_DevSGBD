@@ -21,7 +21,7 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
 
     public PersonDAO() {
         super();
-        mapper = pM;
+        super.mapper = super.pM;
     }
 
     @Override
@@ -70,15 +70,15 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
                     + " FROM " + pT.getTABLE_NAMEWithAlias();
 
             if (vm != null) {
-                String where = " WHERE 1=1 ";
-                where += addWhereInSQL(vm.getFirstName(), pT.getAliasAsColumn(pT.FIRSTNAME));
-                where += addWhereInSQL(vm.getLastName(), pT.getAliasAsColumn(pT.LASTNAME));
-                where += addWhereInSQL(vm.getCity(), pT.getAliasAsColumn(pT.CITY));
-                where += addWhereInSQL(vm.getDateOfBirth(), pT.getAliasAsColumn(pT.DATE_OF_BIRTH));
-                where += addWhereInSQL(vm.getEmail(), pT.getAliasAsColumn(pT.EMAIL));
-                sql += where + "ORDER BY " + pT.getAliasAsColumn(pT.LASTNAME) + ", " + pT.getAliasAsColumn(pT.FIRSTNAME) + ";";
+                String where = " WHERE 1=1";
+                where += addWhereLikeInSQL(vm.getFirstName(), pT.getAliasDotColumn(pT.FIRSTNAME));
+                where += addWhereLikeInSQL(vm.getLastName(), pT.getAliasDotColumn(pT.LASTNAME));
+                where += addWhereLikeInSQL(vm.getCity(), pT.getAliasDotColumn(pT.CITY));
+                where += addWhereEqualsInSQL(vm.getDateOfBirth(), pT.getAliasDotColumn(pT.DATE_OF_BIRTH));
+                where += addWhereLikeInSQL(vm.getEmail(), pT.getAliasDotColumn(pT.EMAIL));
+                sql += where + " ORDER BY " + pT.getAliasDotColumn(pT.LASTNAME) + ", " + pT.getAliasDotColumn(pT.FIRSTNAME) + ";";
             }
-
+            
             PreparedStatement stmt = super.connect2DB.getConn().prepareStatement(sql);
             if (vm != null) {
                 int i = 1;
@@ -101,7 +101,7 @@ public class PersonDAO extends AbstractDAO<Person, PersonMapper, PersonViewModel
 
             ResultSet rs = stmt.executeQuery();
             super.entityList.clear();
-            while (rs.next()) {
+            while (rs != null && rs.next()) {
                 super.entityList.add(mapper.map(rs));
             }
 

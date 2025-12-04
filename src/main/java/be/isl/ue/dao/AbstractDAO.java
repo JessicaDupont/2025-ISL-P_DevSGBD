@@ -29,7 +29,8 @@ import java.util.logging.Logger;
  * @author jessi
  */
 public abstract class AbstractDAO<
-        E extends AbstractEntity, M extends AbstractMapper, V extends ViewModel> {
+        E extends AbstractEntity, M extends AbstractMapper, V extends ViewModel>
+        implements InterfaceDAO<E, V> {
 
     protected Connect2DB connect2DB;
     protected ArrayList<E> entityList = new ArrayList();
@@ -47,6 +48,31 @@ public abstract class AbstractDAO<
         connect2DB = new Connect2DB();
     }
 
+    public AbstractDAO(M mapper) {
+        connect2DB = new Connect2DB();
+        this.mapper = mapper;
+    }
+
+    public List<E> getList() {
+        return entityList;
+    }
+
+    public Connect2DB getConnect2DB() {
+        return connect2DB;
+    }
+
+    public void setConnect2DB(Connect2DB connect2DB) {
+        this.connect2DB = connect2DB;
+    }
+
+    public M getMapper() {
+        return mapper;
+    }
+
+    public void setMapper(M mapper) {
+        this.mapper = mapper;
+    }
+
     public List<E> load() {
         return this.load(null);
     }
@@ -54,10 +80,6 @@ public abstract class AbstractDAO<
     public List<E> load(V vm) {
         select(vm);
         return getList();
-    }
-
-    public List<E> getList() {
-        return entityList;
     }
 
     public void save(E e) {
@@ -130,10 +152,17 @@ public abstract class AbstractDAO<
         return d != null && d != LocalDateTime.of(0, 0, 0, 0, 0);
     }
 
-    protected String addWhereInSQL(String vmGet, String columnName) {
+    protected String addWhereLikeInSQL(String vmGet, String columnName) {
         String result = "";
         if (isNotNullOrEmpty(vmGet)) {
-            result = " AND " + columnName + " LIKE ? ";
+            result = " AND " + columnName + " LIKE ?";
+        }
+        return result;
+    }
+    protected String addWhereEqualsInSQL(String vmGet, String columnName) {
+        String result = "";
+        if (isNotNullOrEmpty(vmGet)) {
+            result = " AND " + columnName + " = ?";
         }
         return result;
     }

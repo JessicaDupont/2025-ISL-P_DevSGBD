@@ -34,7 +34,7 @@ public abstract class AbstractTable<E extends AbstractEntity> {
     }
 
     public String getAliasAsColumn(String c) {
-        return getAliasDotColumn(c) + " AS " + getAlias_Column(c) + " ";
+        return getAliasDotColumn(c) + " AS " + getAlias_Column(c);
     }
 
     public String getAllAliasAsColumns() {

@@ -128,7 +128,7 @@ public class UE extends AbstractEntity<UE> {
         }
         caps+="]";
         return "UE{" +super.toString() 
-                + " code=" + code 
+                + ", code=" + code 
                 + ", name=" + name 
                 + ", description=" + description 
                 + ", numberOfPeriods=" + numberOfPeriods 

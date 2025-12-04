@@ -3,8 +3,10 @@
  */
 package be.isl.ue.ue_duj;
 
-import be.isl.ue.entity.*;
-import java.util.List;
+import be.isl.ue.test.CapacityDAOTest;
+import be.isl.ue.test.PersonDAOTest;
+import be.isl.ue.test.SectionDAOTest;
+import be.isl.ue.test.UEDAOTest;
 
 /**
  *
@@ -16,28 +18,20 @@ public class UE_DUJ {
         System.out.println("Hello World!");
         
         //Person
-        PersonInit p = new PersonInit();
-        List<Person> pL = p.getPersons();
-        System.out.println("PERSONS : "+pL.size());
-        for(Person i : pL){
-            System.out.println(i.toString());
-        }
+        PersonDAOTest pTest = new PersonDAOTest();
+        //pTest.tests();
         
         //Section
-        SectionInit s = new SectionInit();
-        List<Section> sL = s.getSections();
-        System.out.println("SECTIONS : "+sL.size());
-        for(Section i : sL){
-            System.out.println(i.toString());
-        }
+        SectionDAOTest sTest = new SectionDAOTest();
+        //sTest.tests();
         
         //UE
-        UEInit ue = new UEInit();
-        List<UE> ueL = ue.getUes();
-        System.out.println("UE : "+ueL.size());
-        for(UE i : ueL){
-            System.out.println(i.toString());
-        }
+        UEDAOTest ueTest = new UEDAOTest();
+        //ueTest.tests();
+        
+        //Capacity
+        CapacityDAOTest cTest = new CapacityDAOTest();
+        //cTest.tests();
                 
     }
 

@@ -61,9 +61,9 @@ public class SectionDAO extends AbstractDAO<Section, SectionMapper, SectionViewM
 
             if (vm != null) {
                 String where = " WHERE 1=1 ";
-                where += addWhereInSQL(vm.getName(), sT.getAliasDotColumn(sT.NAME));
-                where += addWhereInSQL(vm.getCoordinatorLastName(), pT.getAliasDotColumn(pT.LASTNAME));
-                sql += where + "ORDER BY " + sT.getAliasDotColumn(sT.NAME) + ";";
+                where += addWhereLikeInSQL(vm.getName(), sT.getAliasDotColumn(sT.NAME));
+                where += addWhereLikeInSQL(vm.getCoordinatorLastName(), pT.getAliasDotColumn(pT.LASTNAME));
+                sql += where + " ORDER BY " + sT.getAliasDotColumn(sT.NAME) + ";";
             }
 
             PreparedStatement stmt = super.connect2DB.getConn().prepareStatement(sql);
@@ -78,7 +78,6 @@ public class SectionDAO extends AbstractDAO<Section, SectionMapper, SectionViewM
             }
 
             ResultSet rs = stmt.executeQuery();
-            //System.out.println("RS : "+rs);
             super.entityList.clear();
             while (rs.next()) {
                 super.entityList.add(mapper.map(rs));

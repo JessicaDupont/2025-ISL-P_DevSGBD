@@ -7,19 +7,19 @@ package be.isl.ue.dao;
 import be.isl.ue.dao.mapper.UEMapper;
 import be.isl.ue.entity.UE;
 import be.isl.ue.ui.viewmodel.UEViewModel;
-import be.isl.ue.ui.viewmodel.ViewModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author jessi
  */
-public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
+public class UEDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
 
-    public UeDAO() {
+    public UEDAO() {
         super();
         mapper = super.ueM;
     }
@@ -30,9 +30,11 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
             String sql = "INSERT INTO " + ueT.TABLE_NAME + " ("
                     + ueT.NAME + ", " + ueT.CODE + ", " + ueT.DESCRIPTION + ", "
                     + ueT.IS_DECISIVE + ", " + ueT.NUMBER_OF_PERIODS + ", "
+                    + ueT.FK_SECTION + ", "
                     + ueT.INSERTED_AT + ", " + ueT.UPDATED_AT
                     + ") VALUES ("
                     + "?, ?, ?, "
+                    + "?, "
                     + "?, ?, "
                     + "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP"
                     + ");";
@@ -43,12 +45,13 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
             pStmt.setString(i++, e.getDescription());
             pStmt.setBoolean(i++, e.getIsDecisive());
             pStmt.setInt(i++, e.getNumberOfPeriods());
-
+            pStmt.setInt(i++, e.getSection().getId());
+            
             pStmt.executeUpdate();
             pStmt.close();
             super.updateIdAfterInsert(e, ueT.TABLE_NAME + "_" + ueT.COLUMN_ID + "_seq");
         } catch (SQLException ex) {
-            System.getLogger(UeDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            System.getLogger(UEDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }
 
@@ -68,18 +71,18 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
                     + " ON " + cT.getAliasDotColumn(cT.FK_UE) + " = " + ueT.getAliasDotColumn(ueT.COLUMN_ID);
 
             if (vm != null) {
-                String where = " WHERE 1=1 ";
-                where += addWhereInSQL(vm.getSection(), ueT.getAliasDotColumn(ueT.FK_SECTION));
-                where += addWhereInSQL(vm.getName(), ueT.getAliasDotColumn(ueT.NAME));
-                where += addWhereInSQL(vm.getDescription(), ueT.getAliasDotColumn(ueT.DESCRIPTION));
-                //where += addWhereInSQL(vm.getCapacity(),
+                String where = " WHERE 1=1";
+                where += addWhereLikeInSQL(vm.getSection(), sT.getAliasDotColumn(sT.NAME));
+                where += addWhereLikeInSQL(vm.getName(), ueT.getAliasDotColumn(ueT.NAME));
+                where += addWhereLikeInSQL(vm.getDescription(), ueT.getAliasDotColumn(ueT.DESCRIPTION));
+                //where += addWhereLikeInSQL(vm.getCapacity(),
                 sql += where + " ORDER BY " + ueT.getAliasDotColumn(ueT.COLUMN_ID);
             }
-            System.out.println("SQL : " + sql);
+
             PreparedStatement stmt = super.connect2DB.getConn().prepareStatement(sql);
             if (vm != null) {
                 int i = 1;
-                if (isNotNullOrEmpty(vm.getName())) {
+                if (isNotNullOrEmpty(vm.getSection())) {
                     stmt.setString(i++, "%" + vm.getSection() + "%");
                 }
                 if (isNotNullOrEmpty(vm.getName())) {
@@ -107,7 +110,7 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
                     lastUEId = currentUEId;
                 }
                 rs.getInt(cT.getAlias_Column(cT.COLUMN_ID));
-                
+
                 if (!rs.wasNull() && currentUE != null) {
                     cM.map(rs, currentUE);
                 }
@@ -115,7 +118,7 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
 
             stmt.close();
         } catch (SQLException ex) {
-            System.getLogger(UeDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            System.getLogger(UEDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
 
     }
@@ -123,6 +126,7 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
     @Override
     protected void update(UE e) {
         try {
+            e.setUpdatedAt(LocalDateTime.now());
             String sql = "UPDATE " + ueT.TABLE_NAME + " SET "
                     + ueT.CODE + " = ?, "
                     + ueT.NAME + " = ?, "
@@ -146,7 +150,7 @@ public class UeDAO extends AbstractDAO<UE, UEMapper, UEViewModel> {
             pStmt.executeUpdate();
             pStmt.close();
         } catch (SQLException ex) {
-            System.getLogger(UeDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            System.getLogger(UEDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
     }
 

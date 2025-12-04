@@ -29,11 +29,18 @@ public class CapacityMapper extends AbstractMapper<Capacity, CapacityTable> {
     public Capacity map(ResultSet rs) {
         try {
             UE ue = new UE(rs.getInt(table.getAlias_Column(table.FK_UE)));
-            return new Capacity(//String name, String description, Boolean isThresholdOfSuccess, UE ue
+            return new Capacity(
+                    rs.getInt(table.getAlias_Column(table.COLUMN_ID)),
                     rs.getString(table.getAlias_Column(table.NAME)),
                     rs.getString(table.getAlias_Column(table.DESCRIPTION)),
                     rs.getBoolean(table.getAlias_Column(table.IS_THRESHOLD_OF_SUCCESS)),
-                    ue
+                    ue,
+                    rs.getTimestamp(table.getAlias_Column(table.INSERTED_AT)) == null
+                    ? null
+                    : rs.getTimestamp(table.getAlias_Column(table.INSERTED_AT)).toLocalDateTime(),
+                    rs.getTimestamp(table.getAlias_Column(table.UPDATED_AT)) == null
+                    ? null
+                    : rs.getTimestamp(table.getAlias_Column(table.UPDATED_AT)).toLocalDateTime()
             );
         } catch (SQLException ex) {
             System.getLogger(CapacityMapper.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
